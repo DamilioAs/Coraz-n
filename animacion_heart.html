@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Te amo Kiara <3 </title>
+    <meta charset="UTF-8">
+    <meta name="Keywords">
+    <meta name="Description">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: black;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      canvas {
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: auto;
+      }
+
+      #message {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 50px;
+        font-family: 'Caveat', cursive;
+        font-weight: bold;
+        text-shadow: 4px 4px 10px rgba(255, 0, 0, 0.9);
+        white-space: nowrap;
+        opacity: 0;
+      }
+
+      .pulse {
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+
+      @keyframes pulse {
+        0% { opacity: 1; transform: translateX(-50%) scale(1); }
+        50% { opacity: 0.7; transform: translateX(-50%) scale(1.1); }
+        100% { opacity: 1; transform: translateX(-50%) scale(1); }
+      }
+    </style>
+  </head>
+  <body>
+
+    <canvas id="heart"></canvas>
+    <div id="message"></div>
+
+    <!-- El audio inicia en modo muted para sortear la política de autoplay -->
+    <audio id="bg-music" loop autoplay muted>
+      <source src="cancion.mp3" type="audio/mpeg">
+      Tu navegador no soporta el audio.
+    </audio>
+
+    <script>
+      const text = "I LOVE YOU KIARA";
+      const messageEl = document.getElementById("message");
+
+      function typeEffect(index = 0) {
+        if (index < text.length) {
+          messageEl.innerHTML += text[index];
+          messageEl.style.opacity = 1;
+          setTimeout(() => typeEffect(index + 1), 150);
+        } else {
+          setTimeout(() => {
+            messageEl.classList.add("pulse");
+            setTimeout(eraseEffect, 3000);
+          }, 500);
+        }
+      }
+
+      function eraseEffect() {
+        messageEl.classList.remove("pulse");
+        setTimeout(() => {
+          messageEl.innerHTML = "";
+          messageEl.style.opacity = 0;
+          setTimeout(() => typeEffect(0), 200);
+        }, 500);
+      }
+
+      typeEffect();
+
+      // Intento de desmutear y reproducir el audio después de 2 segundos
+      const audio = document.getElementById("bg-music");
+      setTimeout(() => {
+        audio.muted = false;
+        audio.volume = 1.0;
+        audio.play().catch(err => {
+          console.warn("La reproducción automática fue bloqueada:", err);
+        });
+      }, 3000);
+    </script>
+
+    <script src="corazon.js"></script>
+  </body>
+</html>
